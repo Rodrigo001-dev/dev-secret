@@ -15,7 +15,7 @@ plugins:
 
 functions:
   create:
-    handler: handler.hello
+    handler: src/handlers/secrets.create
 
     # para disparar uma função é preciso criar um evento. Como vai essa função 
     # vai ser disparada atrvés de uma rota HTTP é só criar um evento HTTP
@@ -23,4 +23,20 @@ functions:
       - http:
           path: /secret/
           method: POST
+          cors: true
+
+  get:
+    handler: src/handlers/secrets.get
+    events:
+      - http:
+          path: /secret/{id}
+          method: GET
+          cors: true
+
+  draw:
+    handler: src/handlers/secrets.draw
+    events:
+      - http:
+          path: /secret/{id}/draw
+          method: PUT
           cors: true
