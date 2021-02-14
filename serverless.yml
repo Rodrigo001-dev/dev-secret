@@ -67,16 +67,13 @@ plugins:
 functions:
   hello:
     handler: handler.hello
-#    The following are a few example events you can configure
-#    NOTE: Please make sure to change your handler code to work with those events
-#    Check the event documentation for details
 
-  # para disparar uma função é preciso criar um evento. Como vai essa função
-  # vai ser disparada atrvés de uma rota HTTP é só criar um evento HTTP
-   events:
-     - http:
-         path: hello-world
-         method: get
+    # para disparar uma função é preciso criar um evento. Como vai essa função 
+    # vai ser disparada atrvés de uma rota HTTP é só criar um evento HTTP
+    events:
+      - http:
+          path: hello-world
+          method: GET
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
