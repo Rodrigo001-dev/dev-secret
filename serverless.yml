@@ -25,6 +25,7 @@ functions:
           method: POST
           cors: true
 
+# listar um amigo secreto específico
   get:
     handler: src/handlers/secrets.get
     events:
@@ -33,10 +34,27 @@ functions:
           method: GET
           cors: true
 
+# Sorteio do amigo secreto
   draw:
     handler: src/handlers/secrets.draw
     events:
       - http:
           path: /secret/{id}/draw
           method: PUT
+          cors: true
+
+  createParticipant:
+    handler: src/handlers/participans.create
+    events:
+      - http:
+          path: /secret/{id}/participants
+          method: POST
+          cors: true
+
+  deleteParticipant:
+    handler: src/handlers/participants.delete
+    events:
+      - http:
+          path: /secret/{id}/participants/{participantId}
+          method: delete
           cors: true
