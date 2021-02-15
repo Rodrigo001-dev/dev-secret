@@ -14,6 +14,7 @@ plugins:
   - serverless-offline
 
 functions:
+# criar amigo secreto
   create:
     handler: src/handlers/secrets.create
 
