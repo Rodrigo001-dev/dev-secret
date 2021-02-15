@@ -8,7 +8,9 @@ module.exports = async () => {
   if (!connection) {
     connection = mongoose.connect(URI, {
       useNewUrlParser: true,
-      useCreateIndex: true
+      useCreateIndex: true,
+      useFindAndModify: false,
+      useUnifiedTopology: true
     });
 
     await connection;
