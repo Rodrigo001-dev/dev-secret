@@ -9,7 +9,7 @@ const Schema = {
   // por boas práticas não vai ser exposto o ID original da base, vai ser
   // exposto um ID vai ser gerado por mim
   externalId: String,
-  participansts: [{
+  participants: [{
     // por padrão quando é definido um array de objetos no MongoDB ele cria uma
     // propriedade chamada _id que vai gerar objectID para o SubDocumento, como
     // eu não quero que isso aconteça eu defino _id: false
