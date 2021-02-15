@@ -9,7 +9,7 @@ module.exports.create = async (event, context) => {
   // trabalhando com MongoDB especialmente com labdas, tem um modo para avisar
   // a lambda reutilizar a conexão e não fechar a conexão toda hora, isso é
   // feito através do segundo parâmetro da lambda chamada context
-  context.callbackWaitsForEmptyEventLoop = false
+  context.callbackWaitsForEmptyEventLoop = false;
 
   // dentro do event vai ter várias informações como por exemplo: 
   // o body, headers entre outras informações
@@ -21,13 +21,23 @@ module.exports.create = async (event, context) => {
   const adminKey = uuidv4();
 
   try {
-    SecretModel.create({
+    await SecretModel.create({
       owner: name,
       ownerEmail: email,
       externalId,
       adminKey,
     });
+
+    return {
+      statusCode: 201,
+      body: JSON.stringify({
+        success: true,
+        id: externalId,
+        adminKey
+      })
+    };
   } catch (error) {
+    console.log(error);
     return {
       statusCode: 500,
       body: JSON.stringify({
@@ -37,8 +47,48 @@ module.exports.create = async (event, context) => {
   }
 };
 
-module.exports.get = async (event) => {
+module.exports.get = async (event, context) => {
+  context.callbackWaitsForEmptyEventLoop = false;
 
+  // esse id esta vindo da rota, ele é um dos parâmetros da rota e para acessar
+  // esses parâmetros utilizamos event.pathParameters
+  const { id: externalId } = event.pathParameters;
+  const incomingAdminKey = event.headers['admin-key'];
+
+  try {
+    // nessa opção select do Mongo quando é passado o - antes de campo(-_id) 
+    // ele não vai retornar
+    const { participants, adminKey, drawResult } = await SecretModel.findOne({
+      externalId
+    }).select('-_id participants adminKey drawResult').lean();
+
+    // se estiver vindo o adminKey do header e se esse adminKey for igual o
+    // esta salvo no banco
+    const isAdmin = !!(incomingAdminKey && incomingAdminKey === adminKey);
+
+    const result = {
+      participants,
+      // esses !! quer dizer que eu estou forçando a conversão para boolean,
+      // ou seja nesse caso se for 0 vai ratornar false e for maior que 0 vai
+      // retornar true
+      hasDrew: !!drawResult.length,
+      isAdmin
+    };
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(result),
+    };
+
+  } catch (error) {
+    console.log(error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        success: false
+      }),
+    };
+  }
 };
 
 module.exports.draw = async (event) => {
