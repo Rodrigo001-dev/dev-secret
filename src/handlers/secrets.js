@@ -4,6 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 require('../resources/db/connection')();
 
 const SecretModel = require('../resources/db/models/Secret');
+const draw = require('../utils/draw');
 
 module.exports.create = async (event, context) => {
   // trabalhando com MongoDB especialmente com labdas, tem um modo para avisar
@@ -91,6 +92,54 @@ module.exports.get = async (event, context) => {
   }
 };
 
-module.exports.draw = async (event) => {
+module.exports.draw = async (event, context) => {
+  context.callbackWaitsForEmptyEventLoop = false;
 
+  const { id: externalId } = event.pathParameters;
+  const adminKey = event.headers['admin-key'];
+
+  try {
+    const secret = await SecretModel.findOne({
+      externalId,
+      adminKey,
+    }).select('participants ownerEmail').lean();
+
+    if (!secret) {
+      throw new Error('Erro!!');
+    };
+
+    const drawResult = draw(secret.participants);
+    const drawMap = drawResult.map((result) => {
+      return {
+        giver: result.giver.externalId,
+        receiver: result.receiver.externalId
+      };
+    });
+
+    await SecretModel.updateOne(
+      {
+        _id: secret._id,
+      },
+      {
+        drawResult: drawMap,
+      }
+    );
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        success: true,
+        drawResult
+      }),
+    };
+
+  } catch (error) {
+    console.log(error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        success: false,
+      })
+    };
+  }
 };
