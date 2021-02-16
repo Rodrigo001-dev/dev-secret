@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 
-require('../resources/db/connection');
+require('../resources/db/connection')();
 
 const SecretModel = require('../resources/db/models/Secret');
 
