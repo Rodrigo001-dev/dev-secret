@@ -1,3 +1,6 @@
+// o objetivo desse algoritimo é pegar um array e trocar as posições
+// aleatoriamente
+
 module.exports = (array) => {
   let currentIndex = array.length;
   let temporaryValue;
