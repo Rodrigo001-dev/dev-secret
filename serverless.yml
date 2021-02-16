@@ -47,7 +47,7 @@ functions:
           cors: true
 
   createParticipant:
-    handler: src/handlers/participans.create
+    handler: src/handlers/participants.create
     events:
       - http:
           path: /secret/{id}/participants
