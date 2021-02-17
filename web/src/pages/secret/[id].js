@@ -1,5 +1,6 @@
 import AdminSecretHeader from '../../components/Headers/AdminSecretHeader';
 import SecretHeader from '../../components/Headers/SecretHeader';
+import Participants from '../../components/Participants';
 
 function Secret ({ participants, hasDrew, isAdmin }) {
   return (
@@ -10,6 +11,9 @@ function Secret ({ participants, hasDrew, isAdmin }) {
       {
         !isAdmin && <SecretHeader />
       }
+      <Participants 
+        showButton={isAdmin}
+      />
     </>
   );
 };
