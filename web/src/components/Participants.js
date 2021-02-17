@@ -25,15 +25,17 @@ const ParticipantDelete = styled.div`
 `;
 
 const Participant = ({ showButton }) => {
-  <ParticipantDiv>
-    {
-      showButton && 
-      <ParticipantDelete>
-        <RiDeleteBin2Fill />
-      </ParticipantDelete>
-    }
-    Nome (email@gmail.com)
-  </ParticipantDiv>
+  return ( 
+    <ParticipantDiv>
+      {
+        showButton &&
+        <ParticipantDelete>
+          <RiDeleteBin2Fill />
+        </ParticipantDelete>
+      }
+      Nome (email@gmail.com)
+    </ParticipantDiv>
+  );
 };
 
 export default function Participants ({ showButton }) {
