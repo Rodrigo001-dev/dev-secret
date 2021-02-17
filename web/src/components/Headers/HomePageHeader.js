@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import ImageContainer from '../Comtainers/ImageContainer';
+import ImageContainer from '../Containers/ImageContainer';
 import Logo from '../Logo';
 import NameEmailForm from '../NameEmailForm';
 
