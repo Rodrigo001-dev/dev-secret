@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 import styled from 'styled-components';
 
 import ImageContainer from '../Containers/ImageContainer';
@@ -23,9 +25,28 @@ const DivForm = styled.div`
   flex-shrink: 0;
 `;
 
-export default function AdminSecretHeader () {
-  const link = "https://link.com/sala";
+export default function AdminSecretHeader ({ onAddParticipant }) {
+  const router = useRouter();
+  const { id } = router.query;
   
+  const handleSubmit =  async ({ name, email }) => {
+    const { NEXT_PUBLIC_API_URL } = process.env;
+    const data = await fetch(`${NEXT_PUBLIC_API_URL}/secret/${id}/participants`, {
+      method: 'POST',
+      Body: JSON.stringify({
+        name, 
+        email
+      })
+    });
+    handleResponse({ name, email, response: await data.json() })
+  };
+
+  const handleResponse = ({ name, email, response }) => {
+    if (response.success) {
+      onAddParticipant({ name, email, externalId: response.id })
+    }
+  };
+
   return (
     <ImageContainer>
       <Container>
@@ -34,7 +55,8 @@ export default function AdminSecretHeader () {
       </Container>
       <DivForm>
        <NameEmailForm 
-        buttonText="Participar"
+          buttonText="Participar"
+          onSubmit={handleSubmit}
        />
       </DivForm>
     </ImageContainer>

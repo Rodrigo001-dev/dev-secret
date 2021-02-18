@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import styled from 'styled-components';
 
 import Input from './Input';
@@ -20,18 +22,32 @@ const Form = styled.form`
   }
 `;
 
-function NameEmailForm ({ buttonText }) {
+function NameEmailForm ({ buttonText, onSubmit }) {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onSubmit({ name, email });
+    setName('');
+    setEmail('');
+  };
+  
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <Input 
         placeholder="Seu nome"
         required
+        value={name}
+        onChange={({ target }) => setName(target.value)}
       />
 
       <Input
         type="email"
         placeholder="Seu E-mail"
         required
+        value={email}
+        onChange={({ target }) => setEmail(target.value)}
       />
 
       <Button>{buttonText}</Button>
@@ -41,7 +57,8 @@ function NameEmailForm ({ buttonText }) {
 
 // defaultProps são propriedades padrões do arquivo
 NameEmailForm.defaultProps = {
-  buttonText: "Criar"
+  buttonText: "Criar",
+  onSubmit: () => {}
 };
 
 export default NameEmailForm;

@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 import styled from 'styled-components';
 
 import ImageContainer from '../Containers/ImageContainer';
@@ -23,7 +25,11 @@ const DivForm = styled.div`
 `;
 
 export default function AdminSecretHeader () {
-  const link = "https://link.com/sala";
+  const [link, setLink] = useState('');
+
+  useEffect(() => {
+    setLink(`${window.location.origin}${window.location.pathname}`)
+  }, []);
   
   return (
     <ImageContainer>
