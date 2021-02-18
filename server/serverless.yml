@@ -40,6 +40,8 @@ functions:
 # Sorteio do amigo secreto
   draw:
     handler: src/handlers/secrets.draw
+# Para definir a função que tem acesso ao serviço de E-mail utiliza o role
+    role: 
     events:
       - http:
           path: /secret/{id}/draw
