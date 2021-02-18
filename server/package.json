@@ -3,6 +3,7 @@
     "serverless-offline": "^6.8.0"
   },
   "dependencies": {
+    "aws-sdk": "^2.846.0",
     "mongoose": "^5.11.16",
     "uuid": "^8.3.2"
   }

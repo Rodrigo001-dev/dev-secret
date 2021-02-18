@@ -35,7 +35,10 @@ functions:
       - http:
           path: /secret/{id}
           method: GET
-          cors: true
+          cors: 
+            origin: '*'
+            headers:
+              - admin-key
 
 # Sorteio do amigo secreto
   draw:
@@ -46,7 +49,10 @@ functions:
       - http:
           path: /secret/{id}/draw
           method: PUT
-          cors: true
+          cors: 
+            origin: '*'
+            headers:
+              - admin-key
 
   createParticipant:
     handler: src/handlers/participants.create
@@ -62,4 +68,7 @@ functions:
       - http:
           path: /secret/{id}/participants/{participantId}
           method: delete
-          cors: true
+          cors: 
+            origin: '*'
+            headers:
+              - admin-key
