@@ -4,7 +4,7 @@ const ses = new aws.SES({ region: 'us-east-1' });
 module.exports = (ownerEmail, giver, receiver) => {
   const params = {
     Destination: {
-      ToAddress: [giver.email],
+      ToAddresses: [giver.email],
     },
     Message: {
       Body: {
