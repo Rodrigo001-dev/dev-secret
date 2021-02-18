@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import AdminSecretHeader from '../../components/Headers/AdminSecretHeader';
 import SecretHeader from '../../components/Headers/SecretHeader';
 import Participants from '../../components/Participants';
+import Sort from '../../components/Sort';
 
 function Secret ({ participants, hasDrew, isAdmin }) {
   const [localParticipants, setLocalParticipants] = useState([]);
@@ -28,6 +29,9 @@ function Secret ({ participants, hasDrew, isAdmin }) {
         participants={localParticipants}
         setParticipants={setLocalParticipants}
       />
+      {
+        isAdmin && <Sort hasDrew={hasDrew} />
+      }
     </>
   );
 };

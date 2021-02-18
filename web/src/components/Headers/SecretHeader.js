@@ -31,7 +31,7 @@ export default function AdminSecretHeader ({ onAddParticipant }) {
   
   const handleSubmit =  async ({ name, email }) => {
     const { NEXT_PUBLIC_API_URL } = process.env;
-    const data = await fetch(`${NEXT_PUBLIC_API_URL}/secret/${id}/participants`, {
+    const data = await fetch(`${NEXT_PUBLIC_API_URL}/dev/secret/${id}/participants`, {
       method: 'POST',
       Body: JSON.stringify({
         name, 
